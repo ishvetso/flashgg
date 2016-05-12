@@ -174,7 +174,10 @@ float PhotonIdUtils::pfCaloIso( const edm::Ptr<pat::Photon> &photon,
         if( dEta < maxetaStrip )        { continue; }
         if( dR < dRVeto || dR > dRMax ) { continue; }
 
-        isovalue += pfcand->pt();
+        //isovalue += pfcand->pt();
+        double puppiWeight = 0;
+        puppiWeight = aspackedCandidate -> puppiWeight();
+        if (puppiWeight > 0.)isovalue += (pfcand->pt())*puppiWeight;
         //// candidates[dR] = make_tuple(pfcand,dEta,dPhi);
     }
 
