@@ -72,7 +72,10 @@ float PhotonIdUtils::pfIsoChgWrtVtx( const edm::Ptr<pat::Photon> &photon,
                                    SCdirection.Eta(), SCdirection.Phi() + deltaPhiRotation_ ); // rotate SC in phi if requested (random cone isolation)
         if( dRTkToVtx > coneSize || dRTkToVtx < coneVeto ) { continue; }
 
-        isovalue += pfcand->pt();
+        //isovalue += pfcand->pt();
+        double puppiWeight = 0;
+        puppiWeight = aspackedCandidate -> puppiWeight();
+        if (puppiWeight > 0.)isovalue += (pfcand->pt())*puppiWeight;
     }
     return isovalue;
 
@@ -174,10 +177,7 @@ float PhotonIdUtils::pfCaloIso( const edm::Ptr<pat::Photon> &photon,
         if( dEta < maxetaStrip )        { continue; }
         if( dR < dRVeto || dR > dRMax ) { continue; }
 
-        //isovalue += pfcand->pt();
-        double puppiWeight = 0;
-        puppiWeight = aspackedCandidate -> puppiWeight();
-        if (puppiWeight > 0.)isovalue += (pfcand->pt())*puppiWeight;
+        isovalue += pfcand->pt();
         //// candidates[dR] = make_tuple(pfcand,dEta,dPhi);
     }
 
